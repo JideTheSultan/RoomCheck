@@ -1,0 +1,26 @@
+ROOMCHECK PHASE 5 PATCH MANIFEST
+================================
+
+BASE REQUIRED
+-------------
+RoomCheck Phase 2 with the Phase 3, Phase 4 patches already installed
+
+DEPENDENCY CHANGES
+------------------
+None. package.json and package-lock.json are intentionally not included.
+
+NEW FILES
+---------
+PHASE_5_INSTALLATION.txt
+PHASE_5_PATCH_MANIFEST.txt
+VERIFY_PHASE_5.cmd
+
+REPLACED FILES
+--------------
+src/screens/HomeScreen.tsx
+src/screens/ImportTimetablesScreen.tsx
+src/store/useAppStore.ts
+
+TOTAL PATCH FILES
+-----------------
+6

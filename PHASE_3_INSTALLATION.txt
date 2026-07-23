@@ -1,0 +1,54 @@
+ROOMCHECK PHASE 3 PATCH
+=======================
+
+This is an incremental patch for the completed Phase 2 project.
+It does not include the full app and it must be extracted over Phase 2.
+
+REQUIREMENTS
+------------
+- Your Phase 2 RoomCheck folder is already extracted.
+- The folder contains package.json.
+- RoomCheck-Phase-3-Patch.zip is placed inside that same folder.
+
+INSTALL FROM WINDOWS CMD
+------------------------
+1. Open CMD in the Phase 2 RoomCheck folder.
+
+2. Confirm you are in the correct folder:
+
+   dir package.json
+
+3. Extract the Phase 3 patch over Phase 2:
+
+   powershell -NoProfile -Command "Expand-Archive -Path '.\RoomCheck-Phase-3-Patch.zip' -DestinationPath '.' -Force"
+
+4. Verify the updated project:
+
+   VERIFY_PHASE_3.cmd
+
+5. Start Expo with a clean cache:
+
+   npx expo start -c
+
+No npm install is required for this phase because package.json and
+package-lock.json have not changed.
+
+PHASE 3 SCOPE
+-------------
+- Select multiple timetable files at once.
+- Accept XLSX, CSV, PNG, JPG, JPEG, WEBP, HEIC and HEIF files.
+- Copy selected files into persistent RoomCheck app storage.
+- Register imported document details in the local SQLite database.
+- Prevent the same file from being imported twice.
+- List imported documents and remove unwanted documents.
+- Change the app accent from green to blue.
+
+NOT INCLUDED YET
+----------------
+- Reading timetable rows from XLSX or CSV files.
+- Extracting timetable text from images.
+- Filling classroom and timetable-entry records from imported files.
+- Working classroom or department/level searches.
+
+The imported files correctly show "Awaiting timetable processing" until
+the parsing phase is completed.

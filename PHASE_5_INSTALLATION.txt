@@ -1,0 +1,54 @@
+ROOMCHECK PHASE 5 PATCH
+=======================
+
+This is an incremental patch for a RoomCheck project that already has
+Phase 4 installed. It is not a complete copy of the app.
+
+REQUIREMENTS
+------------
+- Phase 2 and the Phase 3 and Phase 4 patches are already installed.
+- The project folder contains package.json.
+- RoomCheck-Phase-5-Patch.zip is inside that same project folder.
+
+INSTALL FROM WINDOWS CMD
+------------------------
+1. Open CMD in the RoomCheck project folder.
+
+2. Confirm that package.json is present:
+
+   dir package.json
+
+3. Extract the Phase 5 patch:
+
+   powershell -NoProfile -Command "Expand-Archive -Path '.\RoomCheck-Phase-5-Patch.zip' -DestinationPath '.' -Force"
+
+4. Verify the project:
+
+   VERIFY_PHASE_5.cmd
+
+5. Start Expo with a clean cache:
+
+   npx expo start -c
+
+No npm install is required for Phase 5 because its dependencies did not
+change.
+
+PHASE 5 SCOPE
+-------------
+- Show a loading state while RoomCheck checks its local timetable data.
+- Send a first-time user directly to timetable import.
+- Return to Home after the first spreadsheet is processed successfully.
+- Show a setup-attention Home state when files exist but contain no usable
+  timetable entries.
+- Provide direct actions to retry documents or add more timetable files.
+- Show a clear database error state with a retry button.
+- Show the full Home dashboard only when timetable entries are ready.
+- Keep the three main Home options:
+  Find a Free Classroom
+  Check Department and Level
+  Manage Timetable Documents
+
+NOT INCLUDED YET
+----------------
+The Find a Free Classroom and Check Department and Level forms remain
+placeholders. Their working queries are implemented in the next phases.

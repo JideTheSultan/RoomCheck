@@ -1,0 +1,62 @@
+ROOMCHECK PHASE 4 PATCH
+=======================
+
+This is an incremental patch for a RoomCheck project that already has
+Phase 3 installed. It is not a complete copy of the app.
+
+REQUIREMENTS
+------------
+- Phase 2 was installed first.
+- The Phase 3 patch was extracted successfully.
+- The project folder contains package.json.
+- RoomCheck-Phase-4-Patch.zip is inside that same project folder.
+
+INSTALL FROM WINDOWS CMD
+------------------------
+1. Open CMD in the RoomCheck project folder.
+
+2. Confirm that package.json is present:
+
+   dir package.json
+
+3. Extract the Phase 4 patch:
+
+   powershell -NoProfile -Command "Expand-Archive -Path '.\RoomCheck-Phase-4-Patch.zip' -DestinationPath '.' -Force"
+
+4. Install the Phase 4 spreadsheet dependency:
+
+   npm install
+
+5. Verify the project:
+
+   VERIFY_PHASE_4.cmd
+
+6. Start Expo with a clean cache:
+
+   npx expo start -c
+
+PHASE 4 SCOPE
+-------------
+- Read and process XLSX timetable files.
+- Read and process CSV timetable files.
+- Recognise a standard row-based timetable format.
+- Recognise the school timetable grid shown in the supplied samples.
+- Handle Monday to Friday timetable columns.
+- Handle 12-hour and 24-hour timetable ranges.
+- Discover and save classroom names automatically.
+- Recognise classroom overrides written beside course codes.
+- Save processed classes into the local SQLite database.
+- Show ready, failed, processing and image-waiting document states.
+- Allow a failed spreadsheet to be processed again.
+- Remove classroom records that are no longer used.
+
+IMAGE LIMITATION
+----------------
+Timetable images remain safely stored, but Phase 4 does not extract their
+text. Reliable image OCR requires a later external-service decision because
+Expo Go cannot use the required native OCR modules.
+
+SEARCH LIMITATION
+-----------------
+Phase 4 prepares the timetable data. The free-classroom and
+department/level search screens remain disabled until their search phases.

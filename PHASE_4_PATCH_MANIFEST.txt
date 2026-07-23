@@ -1,0 +1,34 @@
+ROOMCHECK PHASE 4 PATCH MANIFEST
+================================
+
+BASE REQUIRED
+-------------
+RoomCheck Phase 2 with the Phase 3 patch already installed
+
+DEPENDENCY CHANGES
+------------------
+Added xlsx 0.18.5 for XLSX and CSV spreadsheet reading.
+package.json and package-lock.json are included.
+
+NEW FILES
+---------
+PHASE_4_INSTALLATION.txt
+PHASE_4_PATCH_MANIFEST.txt
+VERIFY_PHASE_4.cmd
+src/features/import/services/spreadsheetProcessingService.ts
+src/features/import/services/spreadsheetTimetableParser.ts
+
+REPLACED FILES
+--------------
+package.json
+package-lock.json
+src/components/ui/ImportedDocumentCard.tsx
+src/database/repositories/classroomRepository.ts
+src/features/import/services/timetableImportService.ts
+src/screens/ImportTimetablesScreen.tsx
+src/screens/ManageDocumentsScreen.tsx
+src/theme/colors.ts
+
+TOTAL PATCH FILES
+-----------------
+13
