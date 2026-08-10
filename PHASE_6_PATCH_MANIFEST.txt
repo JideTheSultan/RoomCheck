@@ -1,0 +1,30 @@
+ROOMCHECK PHASE 6 PATCH MANIFEST
+================================
+
+BASE REQUIRED
+-------------
+RoomCheck Phase 2 with the Phase 3, Phase 4 and Phase 5 patches installed
+
+DEPENDENCY CHANGES
+------------------
+None. package.json and package-lock.json are intentionally not included.
+
+NEW FILES
+---------
+PHASE_6_INSTALLATION.txt
+PHASE_6_PATCH_MANIFEST.txt
+VERIFY_PHASE_6.cmd
+src/database/repositories/availabilityRepository.ts
+src/utils/timetableDateTime.ts
+
+REPLACED FILES
+--------------
+src/database/repositories/index.ts
+src/navigation/navigationTypes.ts
+src/screens/FindFreeClassroomScreen.tsx
+src/screens/SearchResultsScreen.tsx
+src/types/timetable.ts
+
+TOTAL PATCH FILES
+-----------------
+10

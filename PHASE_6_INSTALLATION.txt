@@ -1,0 +1,56 @@
+ROOMCHECK PHASE 6 PATCH
+=======================
+
+This is an incremental patch for a RoomCheck project that already has
+Phase 5 installed. It is not a complete copy of the app.
+
+REQUIREMENTS
+------------
+- Phase 2 and the Phase 3, Phase 4 and Phase 5 patches are installed.
+- The project folder contains package.json.
+- RoomCheck-Phase-6-Patch.zip is inside that same project folder.
+
+INSTALL FROM WINDOWS CMD
+------------------------
+1. Open CMD in the RoomCheck project folder.
+
+2. Confirm that package.json is present:
+
+   dir package.json
+
+3. Extract the Phase 6 patch:
+
+   powershell -NoProfile -Command "Expand-Archive -Path '.\RoomCheck-Phase-6-Patch.zip' -DestinationPath '.' -Force"
+
+4. Verify the project:
+
+   VERIFY_PHASE_6.cmd
+
+5. Start Expo with a clean cache:
+
+   npx expo start -c
+
+No npm install is required for Phase 6 because its dependencies did not
+change.
+
+PHASE 6 SCOPE
+-------------
+- Make Find a Free Classroom functional.
+- Check classrooms scheduled to remain free for the next 60 minutes.
+- Choose Monday through Friday for a future timetable check.
+- Choose from the one-hour periods discovered in imported timetables.
+- Use overlap-safe SQLite queries.
+- Return only rooms that remain free for the complete selected period.
+- Show the selected weekday and time on the result screen.
+- Show loading, retry, empty and successful result states.
+- Keep the scheduled-versus-physical-occupancy warning visible.
+
+QUERY RULE
+----------
+A classroom is not shown as free if any timetable entry overlaps the
+requested period. A class that ends exactly when the requested period begins
+does not block the room.
+
+NOT INCLUDED YET
+----------------
+The Check Department and Level option remains a placeholder until Phase 7.

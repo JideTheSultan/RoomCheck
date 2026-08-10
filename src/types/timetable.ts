@@ -1,5 +1,40 @@
 export type TimetableDay = 1 | 2 | 3 | 4 | 5;
 
+export type ScheduleDay = 0 | TimetableDay | 6;
+
+export type TimetableTimeSlot = {
+  dayOfWeek: TimetableDay;
+  endMinutes: number;
+  startMinutes: number;
+};
+
+export type FreeClassroom = {
+  id: string;
+  name: string;
+};
+
+export type ClassLevelOption = {
+  level: string;
+  normalizedLevel: string;
+};
+
+export type ClassGroupOption = {
+  department: string;
+  levels: ClassLevelOption[];
+  normalizedDepartment: string;
+};
+
+export type ClassGroupScheduleEntry = {
+  classroomName: string;
+  courseCode: string;
+  courseTitle: string | null;
+  department: string;
+  endMinutes: number;
+  id: string;
+  level: string;
+  startMinutes: number;
+};
+
 export type TimetableEntry = {
   classroomId: string;
   courseCode: string;

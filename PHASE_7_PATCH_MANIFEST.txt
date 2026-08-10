@@ -1,0 +1,30 @@
+ROOMCHECK PHASE 7 PATCH MANIFEST
+================================
+
+BASE REQUIRED
+-------------
+RoomCheck Phase 2 with the Phase 3, Phase 4, Phase 5 and Phase 6 patches
+installed
+
+DEPENDENCY CHANGES
+------------------
+None. package.json and package-lock.json are intentionally not included.
+
+NEW FILES
+---------
+PHASE_7_INSTALLATION.txt
+PHASE_7_PATCH_MANIFEST.txt
+VERIFY_PHASE_7.cmd
+src/database/repositories/classGroupRepository.ts
+
+REPLACED FILES
+--------------
+src/database/repositories/index.ts
+src/navigation/navigationTypes.ts
+src/screens/CheckDepartmentLevelScreen.tsx
+src/screens/SearchResultsScreen.tsx
+src/types/timetable.ts
+
+TOTAL PATCH FILES
+-----------------
+9

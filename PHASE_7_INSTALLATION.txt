@@ -1,0 +1,67 @@
+ROOMCHECK PHASE 7 PATCH
+=======================
+
+This is an incremental patch for a RoomCheck project that already has
+Phase 6 installed. It is not a complete copy of the app.
+
+REQUIREMENTS
+------------
+- Phase 2 and the Phase 3, Phase 4, Phase 5 and Phase 6 patches are installed.
+- The project folder contains package.json.
+- RoomCheck-Phase-7-Patch.zip is inside that same project folder.
+
+INSTALL FROM WINDOWS CMD
+------------------------
+1. Open CMD in the RoomCheck project folder.
+
+2. Confirm that package.json is present:
+
+   dir package.json
+
+3. Extract the Phase 7 patch:
+
+   powershell -NoProfile -Command "Expand-Archive -Path '.\RoomCheck-Phase-7-Patch.zip' -DestinationPath '.' -Force"
+
+4. Verify the project:
+
+   VERIFY_PHASE_7.cmd
+
+5. Start Expo with a clean cache:
+
+   npx expo start -c
+
+No npm install is required for Phase 7 because its dependencies did not
+change.
+
+PHASE 7 SCOPE
+-------------
+- Load departments and levels discovered from imported timetable data.
+- Select a department and one of its available levels.
+- Check whether the selected group has a class during the next 60 minutes.
+- Choose Monday through Friday and a timetable period for a future check.
+- Use overlap-safe SQLite queries for the complete requested period.
+- Show the course code, optional course title, classroom and actual class time.
+- Show a clear no-scheduled-class result when the group is free.
+- Show every matching class if imported data unexpectedly contains more than
+  one match.
+- Preserve the existing Find Free Classroom search.
+
+QUERY RULE
+----------
+A class is returned when its timetable period overlaps any part of the
+requested period. A class that ends exactly when the requested period begins
+does not count as an overlap.
+
+TEST DATA
+---------
+The RoomCheck_Full_Feature_Test_Timetable.xlsx workbook can be used to test
+this phase. Examples:
+
+- ISMS / 300 / Monday / 8:30 AM: ISM 301 in Enugu.
+- ISMS / 300 / Monday / 11:30 AM: ISM 302 in Umuahia.
+- Accounting / 100 / Tuesday / 9:30 AM: no scheduled class.
+
+NOT INCLUDED YET
+----------------
+Document replacement and the remaining document-management refinements belong
+to Phase 8.
