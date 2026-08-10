@@ -1,0 +1,94 @@
+ROOMCHECK PHASE 11 PATCH
+========================
+
+This is an incremental patch for a RoomCheck project that already has
+Phase 10 installed. It is not a complete copy of the app.
+
+REQUIREMENTS
+------------
+- Phase 2 and the Phase 3 through Phase 10 patches are installed.
+- The project folder contains package.json.
+- RoomCheck-Phase-11-Patch.zip is inside that same project folder.
+
+INSTALL FROM WINDOWS CMD
+------------------------
+1. Open CMD in the RoomCheck project folder.
+
+2. Confirm that package.json is present:
+
+   dir package.json
+
+3. Extract the Phase 11 patch:
+
+   powershell -NoProfile -Command "Expand-Archive -Path '.\RoomCheck-Phase-11-Patch.zip' -DestinationPath '.' -Force"
+
+4. Install the Phase 11 sharing dependency:
+
+   npm install
+
+5. Verify the project:
+
+   VERIFY_PHASE_11.cmd
+
+6. Start Expo with a clean cache:
+
+   npx expo start -c
+
+PHASE 11 SCOPE
+--------------
+- Add Backup or Restore Data to Timetable Documents.
+- Export a versioned RoomCheck JSON backup through the device share sheet.
+- Include document history, classrooms, aliases, departments, levels,
+  courses, weekdays and class times.
+- Show the number of documents, classrooms and timetable rows in the current
+  database.
+- Select a RoomCheck JSON backup from device storage.
+- Reject empty, oversized, invalid, unsupported and unrelated JSON files.
+- Validate document, classroom, alias and timetable-row relationships before
+  changing any data.
+- Show the backup creation date and totals before restoration.
+- Require destructive confirmation before replacing current RoomCheck data.
+- Restore all structured timetable data inside one exclusive transaction.
+- Roll back the complete restore if any database write fails.
+- Recalculate document statuses and entry counts from the restored rows.
+- Keep restored timetable rows available to free-classroom and
+  department/level searches.
+- Clean up old stored timetable files only after the database restore
+  succeeds.
+
+BACKUP CONTENT RULE
+-------------------
+The JSON backup contains structured timetable data. It does not include the
+original XLSX, CSV or timetable image file bytes. This keeps backups small and
+portable.
+
+Documents that already have timetable rows remain ready after restoration.
+An image without rows can still receive rows through the Phase 10 manual-entry
+screen. A spreadsheet without rows must be replaced with its original source
+file before it can be processed again.
+
+RESTORE SAFETY RULE
+-------------------
+Restore replaces the current RoomCheck database only after the selected file
+passes validation and the user confirms the action. The database operation is
+transactional: either the full backup is restored or the previous database is
+kept.
+
+PRIVACY
+-------
+A backup contains school timetable information. Store it privately and share
+it only with people who should have access to that timetable.
+
+COMMIT PHASE 11 TO GITHUB
+-------------------------
+After testing, stop Expo with Ctrl+C, then run:
+
+   git add .
+   git commit -m "Complete RoomCheck Phase 11" -m "Add versioned timetable backups, device sharing, strict backup validation, confirmed transactional restore, restored-data status recovery, and safe cleanup of old stored files."
+   git push
+
+If git reports that no upstream branch exists, run the command it suggests,
+usually:
+
+   git push -u origin main
+

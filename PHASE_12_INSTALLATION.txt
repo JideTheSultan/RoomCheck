@@ -1,0 +1,98 @@
+ROOMCHECK PHASE 12 FINAL RELEASE PATCH
+======================================
+
+This is an incremental patch for a RoomCheck project that already has
+Phase 11 installed. It is not a complete copy of the app.
+
+REQUIREMENTS
+------------
+- Phase 2 and the Phase 3 through Phase 11 patches are installed.
+- The project folder contains package.json.
+- RoomCheck-Phase-12-Final-Patch.zip is inside that same project folder.
+
+INSTALL FROM WINDOWS CMD
+------------------------
+1. Open CMD in the RoomCheck project folder.
+
+2. Confirm that package.json is present:
+
+   dir package.json
+
+3. Extract the final Phase 12 patch:
+
+   powershell -NoProfile -Command "Expand-Archive -Path '.\RoomCheck-Phase-12-Final-Patch.zip' -DestinationPath '.' -Force"
+
+4. Verify the project:
+
+   VERIFY_PHASE_12.cmd
+
+5. Start Expo with a clean cache:
+
+   npx expo start -c
+
+No npm install is required for Phase 12 because its dependencies did not
+change.
+
+PHASE 12 SCOPE
+--------------
+- Add the final blue RoomCheck application icon.
+- Add an Android adaptive icon with a safe transparent foreground.
+- Add a RoomCheck splash image and blue splash background.
+- Add a favicon for supported web tooling.
+- Add the RoomCheck URL scheme.
+- Add EAS preview and production build profiles.
+- Configure the preview Android build as an installable APK.
+- Enable production build-number auto-increment through EAS.
+- Add an in-app About and Privacy screen.
+- Explain local storage, sharing, deletion and tracking behavior inside the
+  app.
+- Show Version 1.0.0 and the release-candidate status.
+- Replace the outdated Phase 2 README with complete Version 1.0.0
+  documentation.
+- Add a complete privacy policy.
+- Add the final Android and iOS regression checklist.
+- Add the EAS and app-store release checklist.
+- Add the final technical handoff.
+- Add a project-defense demonstration guide and likely defense questions.
+
+BRANDING NOTE
+-------------
+Expo Go uses the Expo Go application icon. The RoomCheck icon and native splash
+screen are visible in an EAS preview or production build.
+
+CREATE A PREVIEW APK
+--------------------
+The developer must use their own Expo account and signing credentials:
+
+   npx eas-cli@latest login
+   npx eas-cli@latest init
+   npx eas-cli@latest build --platform android --profile preview
+
+After linking the Expo project, commit the project ID added to app.json.
+
+FINAL TESTING
+-------------
+Complete FINAL_TEST_CHECKLIST.md in Expo Go, then repeat the main smoke tests
+on the preview APK. Store publishing should begin only after every blocker is
+fixed.
+
+STORE RELEASE
+-------------
+Follow RELEASE_CHECKLIST.md. Google Play and Apple App Store submission needs
+private developer accounts, signing credentials, store screenshots, listing
+content and a publicly hosted privacy-policy URL. These account-specific steps
+are intentionally not performed by this patch.
+
+COMMIT PHASE 12 TO GITHUB
+-------------------------
+After testing, stop Expo with Ctrl+C, then run:
+
+   git add .
+   git commit -m "Complete RoomCheck Phase 12 release candidate" -m "Add final RoomCheck branding, native icon and splash configuration, EAS build profiles, in-app privacy information, full regression testing, release documentation, and project-defense handoff."
+   git push
+
+After the preview APK passes the final checklist, create the Version 1.0.0 tag:
+
+   git tag -a v1.0.0 -m "RoomCheck 1.0.0 release candidate"
+   git push origin v1.0.0
+

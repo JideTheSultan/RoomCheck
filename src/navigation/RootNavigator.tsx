@@ -1,6 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import { AboutScreen } from '../screens/AboutScreen';
 import { CheckDepartmentLevelScreen } from '../screens/CheckDepartmentLevelScreen';
+import { DataBackupScreen } from '../screens/DataBackupScreen';
 import { FindFreeClassroomScreen } from '../screens/FindFreeClassroomScreen';
 import { HomeScreen } from '../screens/HomeScreen';
 import { ImageTimetableEntryScreen } from '../screens/ImageTimetableEntryScreen';
@@ -32,6 +34,11 @@ export function RootNavigator() {
       }}
     >
       <Stack.Screen
+        component={AboutScreen}
+        name="About"
+        options={{ title: 'About RoomCheck' }}
+      />
+      <Stack.Screen
         component={HomeScreen}
         name="Home"
         options={{ headerShown: false }}
@@ -40,6 +47,11 @@ export function RootNavigator() {
         component={ImportTimetablesScreen}
         name="ImportTimetables"
         options={{ title: 'Import timetables' }}
+      />
+      <Stack.Screen
+        component={DataBackupScreen}
+        name="DataBackup"
+        options={{ title: 'Backup and restore' }}
       />
       <Stack.Screen
         component={FindFreeClassroomScreen}

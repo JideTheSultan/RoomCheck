@@ -224,6 +224,13 @@ export function HomeScreen({ navigation }: Props) {
           RoomCheck reports scheduled availability. It does not detect physical
           occupancy.
         </Text>
+
+        <AppButton
+          icon="information-circle-outline"
+          label="About and privacy"
+          onPress={() => navigation.navigate('About')}
+          variant="secondary"
+        />
       </ScrollView>
     </SafeAreaView>
   );

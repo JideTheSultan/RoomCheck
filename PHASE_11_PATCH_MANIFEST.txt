@@ -1,0 +1,31 @@
+ROOMCHECK PHASE 11 PATCH MANIFEST
+=================================
+
+BASE REQUIRED
+-------------
+RoomCheck Phase 2 with the Phase 3 through Phase 10 patches installed
+
+DEPENDENCY CHANGES
+------------------
+Added expo-sharing ~14.0.8 for the native device share sheet.
+
+NEW FILES
+---------
+PHASE_11_INSTALLATION.txt
+PHASE_11_PATCH_MANIFEST.txt
+VERIFY_PHASE_11.cmd
+src/features/backup/services/roomCheckBackupService.ts
+src/screens/DataBackupScreen.tsx
+
+REPLACED FILES
+--------------
+package.json
+package-lock.json
+src/navigation/RootNavigator.tsx
+src/navigation/navigationTypes.ts
+src/screens/ManageDocumentsScreen.tsx
+
+TOTAL PATCH FILES
+-----------------
+10
+

@@ -1,0 +1,42 @@
+ROOMCHECK PHASE 12 FINAL PATCH MANIFEST
+=======================================
+
+BASE REQUIRED
+-------------
+RoomCheck Phase 2 with the Phase 3 through Phase 11 patches installed
+
+DEPENDENCY CHANGES
+------------------
+None. package.json and package-lock.json are intentionally not included.
+
+NEW FILES
+---------
+PHASE_12_INSTALLATION.txt
+PHASE_12_PATCH_MANIFEST.txt
+VERIFY_PHASE_12.cmd
+FINAL_HANDOFF.md
+FINAL_TEST_CHECKLIST.md
+PRIVACY_POLICY.md
+PROJECT_DEFENSE_GUIDE.md
+RELEASE_CHECKLIST.md
+eas.json
+assets/icon-source.svg
+assets/adaptive-icon-source.svg
+assets/icon.png
+assets/adaptive-icon.png
+assets/splash-icon.png
+assets/favicon.png
+src/screens/AboutScreen.tsx
+
+REPLACED FILES
+--------------
+README.md
+app.json
+src/navigation/RootNavigator.tsx
+src/navigation/navigationTypes.ts
+src/screens/HomeScreen.tsx
+
+TOTAL PATCH FILES
+-----------------
+21
+

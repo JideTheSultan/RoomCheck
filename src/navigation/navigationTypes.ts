@@ -21,10 +21,12 @@ export type ClassGroupSearchParams = BaseSearchParams & {
 };
 
 export type RootStackParamList = {
+  About: undefined;
   Home: undefined;
   ImportTimetables: undefined;
   FindFreeClassroom: undefined;
   CheckDepartmentLevel: undefined;
+  DataBackup: undefined;
   ImageTimetableEntry: {
     documentId: string;
     documentName: string;

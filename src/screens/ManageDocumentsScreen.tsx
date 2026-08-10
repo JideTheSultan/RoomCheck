@@ -283,6 +283,14 @@ export function ManageDocumentsScreen({ navigation }: Props) {
         onPress={() => navigation.navigate('ImportTimetables')}
       />
 
+      <AppButton
+        disabled={actionsDisabled}
+        icon="cloud-download-outline"
+        label="Backup or restore data"
+        onPress={() => navigation.navigate('DataBackup')}
+        variant="secondary"
+      />
+
       <View style={styles.listSection}>
         <Text style={styles.sectionTitle}>Imported files</Text>
 
