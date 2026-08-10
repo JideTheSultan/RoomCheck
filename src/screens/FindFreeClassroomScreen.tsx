@@ -216,10 +216,17 @@ export function FindFreeClassroomScreen({ navigation }: Props) {
         ) : null}
 
         {!isLoading && !error && availableSlots.length === 0 ? (
-          <View style={styles.inlineState}>
+          <View style={styles.recoveryState}>
             <Text style={styles.stateText}>
-              No timetable periods were found in the imported data.
+              No timetable periods were found. Import a timetable with valid
+              weekday and time columns, then try again.
             </Text>
+            <AppButton
+              icon="documents-outline"
+              label="Manage timetable documents"
+              onPress={() => navigation.navigate('ManageDocuments')}
+              variant="secondary"
+            />
           </View>
         ) : null}
 
@@ -391,6 +398,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: spacing.sm,
     justifyContent: 'center',
+    padding: spacing.lg,
+  },
+  recoveryState: {
+    alignItems: 'stretch',
+    backgroundColor: colors.surfaceMuted,
+    borderRadius: radius.md,
+    gap: spacing.md,
     padding: spacing.lg,
   },
   stateText: {

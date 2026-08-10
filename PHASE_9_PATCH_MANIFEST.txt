@@ -1,0 +1,32 @@
+ROOMCHECK PHASE 9 PATCH MANIFEST
+================================
+
+BASE REQUIRED
+-------------
+RoomCheck Phase 2 with the Phase 3 through Phase 8 patches installed
+
+DEPENDENCY CHANGES
+------------------
+None. package.json and package-lock.json are intentionally not included.
+
+NEW FILES
+---------
+PHASE_9_INSTALLATION.txt
+PHASE_9_PATCH_MANIFEST.txt
+VERIFY_PHASE_9.cmd
+src/components/AppErrorBoundary.tsx
+src/components/ui/ImportResultCard.tsx
+
+REPLACED FILES
+--------------
+App.tsx
+src/components/DatabaseFailureScreen.tsx
+src/components/ui/index.ts
+src/screens/CheckDepartmentLevelScreen.tsx
+src/screens/FindFreeClassroomScreen.tsx
+src/screens/ImportTimetablesScreen.tsx
+
+TOTAL PATCH FILES
+-----------------
+11
+

@@ -1,0 +1,82 @@
+ROOMCHECK PHASE 9 PATCH
+=======================
+
+This is an incremental patch for a RoomCheck project that already has
+Phase 8 installed. It is not a complete copy of the app.
+
+REQUIREMENTS
+------------
+- Phase 2 and the Phase 3 through Phase 8 patches are installed.
+- The project folder contains package.json.
+- RoomCheck-Phase-9-Patch.zip is inside that same project folder.
+
+INSTALL FROM WINDOWS CMD
+------------------------
+1. Open CMD in the RoomCheck project folder.
+
+2. Confirm that package.json is present:
+
+   dir package.json
+
+3. Extract the Phase 9 patch:
+
+   powershell -NoProfile -Command "Expand-Archive -Path '.\RoomCheck-Phase-9-Patch.zip' -DestinationPath '.' -Force"
+
+4. Verify the project:
+
+   VERIFY_PHASE_9.cmd
+
+5. Start Expo with a clean cache:
+
+   npx expo start -c
+
+No npm install is required for Phase 9 because its dependencies did not
+change.
+
+PHASE 9 SCOPE
+-------------
+- Catch unexpected screen-rendering errors and show a safe recovery screen
+  instead of leaving the app blank.
+- Confirm that an unexpected screen error does not delete imported timetable
+  files.
+- Let users retry local database startup without closing RoomCheck.
+- Show a clear result after every file import, including saved, ready and
+  needs-attention totals.
+- List each successfully processed document with its timetable-entry count.
+- Separate saved images, duplicate files, unsupported files, save failures and
+  processing failures so users know what happened to every selection.
+- Explain when no new files were imported and keep the file picker available
+  for another attempt.
+- Add direct Manage Timetable Documents recovery actions when no timetable
+  periods, departments or levels can be found.
+- Explain which timetable columns are required when search options are empty.
+- Preserve the existing loading indicators, retry controls, disabled action
+  states and confirmation prompts for destructive document actions.
+
+RECOVERY RULES
+--------------
+The global error screen resets only the failed interface. It does not clear
+the database or remove imported files. The database retry action creates a new
+database-provider attempt after clearing the visible startup error.
+
+Import results use these categories:
+- Saved: files copied into RoomCheck.
+- Ready: spreadsheet files successfully converted to timetable entries.
+- Needs attention: unsupported files, save failures or processing failures.
+- Already imported: duplicate files skipped without changing existing data.
+- Images saved for a later phase: files kept safely until image text
+  extraction is available.
+
+COMMIT PHASE 9 TO GITHUB
+------------------------
+After testing, stop Expo with Ctrl+C, then run:
+
+   git add .
+   git commit -m "Complete RoomCheck Phase 9" -m "Add app-level error recovery, retryable database startup, clearer import results, actionable empty states, loading protection, and improved error feedback throughout RoomCheck."
+   git push
+
+If git reports that no upstream branch exists, run the command it suggests,
+usually:
+
+   git push -u origin main
+

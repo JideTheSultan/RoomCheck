@@ -11,6 +11,7 @@ import { useState } from 'react';
 
 import {
   AppButton,
+  ImportResultCard,
   PhaseNotice,
   Screen,
 } from '../components/ui';
@@ -130,59 +131,10 @@ export function ImportTimetablesScreen({ navigation }: Props) {
       ) : null}
 
       {importResult ? (
-        <View style={styles.resultCard}>
-          <Text style={styles.resultTitle}>Import finished</Text>
-          <Text style={styles.resultLine}>
-            Saved: {importResult.imported.length}
-          </Text>
-          <Text style={styles.resultLine}>
-            Processed:{' '}
-            {
-              importResult.imported.filter(
-                (document) => document.status === 'ready',
-              ).length
-            }
-          </Text>
-          <Text style={styles.resultLine}>
-            Images waiting for text extraction:{' '}
-            {importResult.deferredImages.length}
-          </Text>
-          <Text style={styles.resultLine}>
-            Already imported: {importResult.duplicates.length}
-          </Text>
-          <Text style={styles.resultLine}>
-            Unsupported: {importResult.unsupported.length}
-          </Text>
-          <Text style={styles.resultLine}>
-            File failures: {importResult.failures.length}
-          </Text>
-          <Text style={styles.resultLine}>
-            Processing failures: {importResult.processingFailures.length}
-          </Text>
-
-          {importResult.failures.map((failure, index) => (
-            <Text key={`${failure.name}-${index}`} style={styles.error}>
-              {failure.name}: {failure.message}
-            </Text>
-          ))}
-          {importResult.processingFailures.map((failure, index) => (
-            <Text
-              key={`processing-${failure.name}-${index}`}
-              style={styles.error}
-            >
-              {failure.name}: {failure.message}
-            </Text>
-          ))}
-
-          {importResult.imported.length > 0 ? (
-            <AppButton
-              icon="home-outline"
-              label="Continue to Home"
-              onPress={() => navigation.replace('Home')}
-              variant="secondary"
-            />
-          ) : null}
-        </View>
+        <ImportResultCard
+          onContinue={() => navigation.replace('Home')}
+          result={importResult}
+        />
       ) : null}
     </Screen>
   );
@@ -225,23 +177,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   progressText: {
-    color: colors.textMuted,
-    fontSize: typography.label,
-  },
-  resultCard: {
-    backgroundColor: colors.surface,
-    borderColor: colors.border,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    gap: spacing.sm,
-    padding: spacing.lg,
-  },
-  resultTitle: {
-    color: colors.text,
-    fontSize: typography.heading,
-    fontWeight: '700',
-  },
-  resultLine: {
     color: colors.textMuted,
     fontSize: typography.label,
   },

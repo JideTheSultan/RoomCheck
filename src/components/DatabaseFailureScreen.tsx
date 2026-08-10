@@ -10,22 +10,30 @@ import {
   spacing,
   typography,
 } from '../theme';
+import { AppButton } from './ui';
 
 type DatabaseFailureScreenProps = {
   message: string;
+  onRetry: () => void;
 };
 
 export function DatabaseFailureScreen({
   message,
+  onRetry,
 }: DatabaseFailureScreenProps) {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.content}>
         <Text style={styles.title}>RoomCheck could not start</Text>
         <Text style={styles.description}>
-          The local timetable database could not be opened. Close the app and
-          try again.
+          The local timetable database could not be opened. Try again before
+          closing the app.
         </Text>
+        <AppButton
+          icon="refresh-outline"
+          label="Try opening the database again"
+          onPress={onRetry}
+        />
         <Text selectable style={styles.error}>
           {message}
         </Text>

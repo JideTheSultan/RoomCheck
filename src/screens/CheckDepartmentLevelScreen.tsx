@@ -217,10 +217,17 @@ export function CheckDepartmentLevelScreen({ navigation }: Props) {
       ) : null}
 
       {!isLoading && !error && classGroups.length === 0 ? (
-        <View style={styles.inlineState}>
+        <View style={styles.recoveryState}>
           <Text style={styles.stateText}>
-            No departments or levels were found in the imported timetable.
+            No departments or levels were found. Import a timetable with
+            department and level details, then try again.
           </Text>
+          <AppButton
+            icon="documents-outline"
+            label="Manage timetable documents"
+            onPress={() => navigation.navigate('ManageDocuments')}
+            variant="secondary"
+          />
         </View>
       ) : null}
 
@@ -363,11 +370,21 @@ export function CheckDepartmentLevelScreen({ navigation }: Props) {
 
       <View style={styles.formSection}>
         <Text style={styles.label}>Timetable period</Text>
-        {!isLoading && !error && availableSlots.length === 0 ? (
-          <View style={styles.inlineState}>
+        {!isLoading &&
+        !error &&
+        classGroups.length > 0 &&
+        availableSlots.length === 0 ? (
+          <View style={styles.recoveryState}>
             <Text style={styles.stateText}>
-              No timetable periods were found in the imported data.
+              No timetable periods were found. Check the imported document or
+              replace it with a timetable that includes valid times.
             </Text>
+            <AppButton
+              icon="documents-outline"
+              label="Manage timetable documents"
+              onPress={() => navigation.navigate('ManageDocuments')}
+              variant="secondary"
+            />
           </View>
         ) : null}
         {!isLoading && !error && availableSlots.length > 0 ? (
@@ -599,9 +616,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: spacing.lg,
   },
+  recoveryState: {
+    alignItems: 'stretch',
+    backgroundColor: colors.surfaceMuted,
+    borderRadius: radius.md,
+    gap: spacing.md,
+    padding: spacing.lg,
+  },
   stateText: {
     color: colors.textMuted,
-    flex: 1,
     fontSize: typography.label,
     lineHeight: 20,
     textAlign: 'center',
