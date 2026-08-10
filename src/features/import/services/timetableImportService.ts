@@ -327,7 +327,7 @@ export async function replaceImportedDocument(
 
     return {
       message:
-        'A timetable image cannot replace processed spreadsheet data until image text extraction is available.',
+        'A timetable image cannot safely replace processed spreadsheet data before its rows are entered. Add the image as a separate document, then enter its rows manually.',
       status: 'failed',
     };
   }

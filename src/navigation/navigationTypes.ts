@@ -25,6 +25,10 @@ export type RootStackParamList = {
   ImportTimetables: undefined;
   FindFreeClassroom: undefined;
   CheckDepartmentLevel: undefined;
+  ImageTimetableEntry: {
+    documentId: string;
+    documentName: string;
+  };
   ManageDocuments: undefined;
   SearchResults: FreeClassroomSearchParams | ClassGroupSearchParams;
 };

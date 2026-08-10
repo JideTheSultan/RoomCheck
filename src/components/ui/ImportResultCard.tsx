@@ -74,7 +74,7 @@ export function ImportResultCard({
   const description = hasReadyDocuments
     ? 'RoomCheck finished reading the timetable rows below.'
     : result.deferredImages.length > 0
-      ? 'The selected images are stored safely. Text extraction is not available yet.'
+      ? 'The selected images are stored safely. Enter their timetable rows manually from document management.'
       : 'Review the details below, then choose different timetable files if needed.';
 
   return (
@@ -132,7 +132,7 @@ export function ImportResultCard({
       <DetailList
         color="warning"
         items={result.deferredImages}
-        title="Images saved for a later phase"
+        title="Images ready for manual entry"
       />
       <DetailList
         items={result.duplicates}
@@ -160,8 +160,10 @@ export function ImportResultCard({
 
       {hasNewFiles ? (
         <AppButton
-          icon="home-outline"
-          label="Continue to Home"
+          icon={hasReadyDocuments ? 'home-outline' : 'folder-open-outline'}
+          label={
+            hasReadyDocuments ? 'Continue to Home' : 'Manage saved images'
+          }
           onPress={onContinue}
           variant="secondary"
         />

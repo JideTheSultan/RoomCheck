@@ -36,6 +36,63 @@ export function formatTimeRange(startMinutes: number, endMinutes: number) {
   return `${formatMinutes(startMinutes)} – ${formatMinutes(endMinutes)}`;
 }
 
+export function parseTimetableTimeInput(value: string) {
+  const normalized = value.trim().toUpperCase().replace(/[.\s]/g, '');
+
+  if (!normalized) {
+    return null;
+  }
+
+  const meridiemMatch = normalized.match(/(AM|PM)$/);
+  const meridiem = meridiemMatch?.[1] ?? null;
+  const timeValue = meridiem
+    ? normalized.slice(0, -meridiem.length)
+    : normalized;
+  let hour: number;
+  let minute: number;
+
+  if (timeValue.includes(':')) {
+    const match = timeValue.match(/^(\d{1,2}):(\d{2})$/);
+
+    if (!match) {
+      return null;
+    }
+
+    hour = Number(match[1]);
+    minute = Number(match[2]);
+  } else if (/^\d{3,4}$/.test(timeValue)) {
+    hour = Number(timeValue.slice(0, -2));
+    minute = Number(timeValue.slice(-2));
+  } else if (/^\d{1,2}$/.test(timeValue)) {
+    hour = Number(timeValue);
+    minute = 0;
+  } else {
+    return null;
+  }
+
+  if (minute < 0 || minute > 59) {
+    return null;
+  }
+
+  if (meridiem) {
+    if (hour < 1 || hour > 12) {
+      return null;
+    }
+
+    return (hour % 12) * 60 + minute + (meridiem === 'PM' ? 720 : 0);
+  }
+
+  if (hour === 24 && minute === 0) {
+    return 1440;
+  }
+
+  if (hour < 0 || hour > 23) {
+    return null;
+  }
+
+  return hour * 60 + minute;
+}
+
 export function getCurrentSchedulePeriod(now = new Date()) {
   const dayOfWeek = now.getDay() as ScheduleDay;
   const startMinutes = now.getHours() * 60 + now.getMinutes();

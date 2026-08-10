@@ -54,6 +54,10 @@ export type TimetableEntry = {
   startMinutes: number;
 };
 
+export type DocumentTimetableEntry = TimetableEntry & {
+  classroomName: string;
+};
+
 export type NewTimetableEntry = Omit<TimetableEntry, 'createdAt'> & {
   createdAt?: string;
 };

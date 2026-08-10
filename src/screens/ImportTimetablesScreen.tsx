@@ -104,7 +104,7 @@ export function ImportTimetablesScreen({ navigation }: Props) {
         ))}
       </View>
 
-      <PhaseNotice description="XLSX and CSV files are processed after they are saved. Images are stored safely, but image text extraction requires a later phase." />
+      <PhaseNotice description="XLSX and CSV files are processed after they are saved. For an image, open Timetable Documents and enter each class row manually." />
 
       <AppButton
         disabled={isImporting}
@@ -132,7 +132,23 @@ export function ImportTimetablesScreen({ navigation }: Props) {
 
       {importResult ? (
         <ImportResultCard
-          onContinue={() => navigation.replace('Home')}
+          onContinue={() => {
+            const hasReadySpreadsheet = importResult.imported.some(
+              (document) => document.status === 'ready',
+            );
+
+            if (hasReadySpreadsheet) {
+              navigation.replace('Home');
+            } else {
+              navigation.reset({
+                index: 1,
+                routes: [
+                  { name: 'Home' },
+                  { name: 'ManageDocuments' },
+                ],
+              });
+            }
+          }}
           result={importResult}
         />
       ) : null}

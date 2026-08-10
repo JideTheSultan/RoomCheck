@@ -1,6 +1,7 @@
 import type { SQLiteDatabase } from 'expo-sqlite';
 
 import type {
+  DocumentTimetableEntry,
   NewTimetableEntry,
   TimetableDay,
   TimetableEntry,
@@ -23,6 +24,10 @@ type TimetableEntryRow = {
   source_location: string | null;
   source_sheet: string | null;
   start_minutes: number;
+};
+
+type DocumentTimetableEntryRow = TimetableEntryRow & {
+  classroom_name: string;
 };
 
 function mapTimetableEntry(row: TimetableEntryRow): TimetableEntry {
@@ -106,6 +111,65 @@ export async function countTimetableEntries(database: SQLiteDatabase) {
   );
 
   return row?.count ?? 0;
+}
+
+export async function countTimetableEntriesForDocument(
+  database: SQLiteDatabase,
+  documentId: string,
+) {
+  const row = await database.getFirstAsync<{ count: number }>(
+    `
+      SELECT COUNT(*) AS count
+      FROM timetable_entries
+      WHERE document_id = ?
+    `,
+    documentId,
+  );
+
+  return row?.count ?? 0;
+}
+
+export async function listTimetableEntriesForDocument(
+  database: SQLiteDatabase,
+  documentId: string,
+): Promise<DocumentTimetableEntry[]> {
+  const rows = await database.getAllAsync<DocumentTimetableEntryRow>(
+    `
+      SELECT
+        timetable_entries.*,
+        classrooms.name AS classroom_name
+      FROM timetable_entries
+      INNER JOIN classrooms
+        ON classrooms.id = timetable_entries.classroom_id
+      WHERE timetable_entries.document_id = ?
+      ORDER BY
+        timetable_entries.day_of_week ASC,
+        timetable_entries.start_minutes ASC,
+        timetable_entries.end_minutes ASC,
+        timetable_entries.course_code COLLATE NOCASE ASC
+    `,
+    documentId,
+  );
+
+  return rows.map((row) => ({
+    ...mapTimetableEntry(row),
+    classroomName: row.classroom_name,
+  }));
+}
+
+export async function deleteTimetableEntry(
+  database: SQLiteDatabase,
+  documentId: string,
+  entryId: string,
+) {
+  await database.runAsync(
+    `
+      DELETE FROM timetable_entries
+      WHERE id = ? AND document_id = ?
+    `,
+    entryId,
+    documentId,
+  );
 }
 
 export async function deleteTimetableEntriesForDocument(

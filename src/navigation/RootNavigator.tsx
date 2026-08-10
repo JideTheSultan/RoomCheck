@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { CheckDepartmentLevelScreen } from '../screens/CheckDepartmentLevelScreen';
 import { FindFreeClassroomScreen } from '../screens/FindFreeClassroomScreen';
 import { HomeScreen } from '../screens/HomeScreen';
+import { ImageTimetableEntryScreen } from '../screens/ImageTimetableEntryScreen';
 import { ImportTimetablesScreen } from '../screens/ImportTimetablesScreen';
 import { ManageDocumentsScreen } from '../screens/ManageDocumentsScreen';
 import { SearchResultsScreen } from '../screens/SearchResultsScreen';
@@ -49,6 +50,11 @@ export function RootNavigator() {
         component={CheckDepartmentLevelScreen}
         name="CheckDepartmentLevel"
         options={{ title: 'Check a class group' }}
+      />
+      <Stack.Screen
+        component={ImageTimetableEntryScreen}
+        name="ImageTimetableEntry"
+        options={{ title: 'Enter image timetable' }}
       />
       <Stack.Screen
         component={ManageDocumentsScreen}

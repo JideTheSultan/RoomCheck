@@ -1,0 +1,84 @@
+ROOMCHECK PHASE 10 PATCH
+========================
+
+This is an incremental patch for a RoomCheck project that already has
+Phase 9 installed. It is not a complete copy of the app.
+
+REQUIREMENTS
+------------
+- Phase 2 and the Phase 3 through Phase 9 patches are installed.
+- The project folder contains package.json.
+- RoomCheck-Phase-10-Patch.zip is inside that same project folder.
+
+INSTALL FROM WINDOWS CMD
+------------------------
+1. Open CMD in the RoomCheck project folder.
+
+2. Confirm that package.json is present:
+
+   dir package.json
+
+3. Extract the Phase 10 patch:
+
+   powershell -NoProfile -Command "Expand-Archive -Path '.\RoomCheck-Phase-10-Patch.zip' -DestinationPath '.' -Force"
+
+4. Verify the project:
+
+   VERIFY_PHASE_10.cmd
+
+5. Start Expo with a clean cache:
+
+   npx expo start -c
+
+No npm install is required for Phase 10 because its dependencies did not
+change.
+
+PHASE 10 SCOPE
+--------------
+- Make imported timetable images usable without an external OCR service.
+- Open an image from Timetable Documents and preview the stored file.
+- Enter one class row at a time using department, level, classroom, course
+  code, optional course title, weekday, start time and end time.
+- Accept common 12-hour and 24-hour time formats, including 8:30 AM, 14:30
+  and 1430.
+- Validate every required field and reject invalid or reversed time ranges.
+- Save manually entered rows against the correct image document.
+- Reuse an existing classroom when its name already exists.
+- Mark an image document ready after its first timetable row is saved.
+- Show every saved row with its weekday, time, class group and classroom.
+- Remove one manually entered row after confirmation.
+- Return an image document to pending when its final row is removed.
+- Remove discovered classrooms only when no remaining timetable row uses
+  them.
+- Make manually entered image rows available to both free-classroom and
+  department/level searches.
+- Guide image-only imports directly to document management while preserving a
+  route back to Home.
+
+IMPORTANT IMAGE RULE
+--------------------
+Phase 10 does not perform automatic OCR. Reliable on-device OCR needs native
+modules that are not available in Expo Go, while cloud OCR requires a secure
+backend and service credentials. RoomCheck therefore provides a fully local
+manual-entry workflow and does not expose an API key in the mobile app.
+
+ROW REMOVAL RULE
+----------------
+Removing a row affects only that row. Shared classrooms and timetable data
+from other imported documents remain intact. Removing an image document still
+removes all rows created from that image, following the existing Phase 8
+document-removal rules.
+
+COMMIT PHASE 10 TO GITHUB
+-------------------------
+After testing, stop Expo with Ctrl+C, then run:
+
+   git add .
+   git commit -m "Complete RoomCheck Phase 10" -m "Add Expo Go-compatible manual timetable entry for imported images, image previews, row validation, safe row removal, document status updates, and search integration."
+   git push
+
+If git reports that no upstream branch exists, run the command it suggests,
+usually:
+
+   git push -u origin main
+

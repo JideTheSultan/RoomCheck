@@ -179,8 +179,8 @@ export function HomeScreen({ navigation }: Props) {
             <Text style={styles.setupTitle}>No usable timetable data yet</Text>
             <Text style={styles.setupDescription}>
               Your files are saved, but none has produced classroom schedule
-              entries. Open document management to retry failed spreadsheets or
-              add an XLSX or CSV file.
+              entries. Open document management to retry a failed spreadsheet,
+              enter rows from an image or add another timetable file.
             </Text>
             <AppButton
               icon="folder-open-outline"

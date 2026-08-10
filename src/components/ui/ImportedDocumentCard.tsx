@@ -23,6 +23,7 @@ type ImportedDocumentCardProps = {
   isProcessing?: boolean;
   isRemoving?: boolean;
   isReplacing?: boolean;
+  onEnterRows?: () => void;
   onProcess?: () => void;
   onRemove: () => void;
   onReplace?: () => void;
@@ -75,6 +76,7 @@ export function ImportedDocumentCard({
   isProcessing = false,
   isRemoving = false,
   isReplacing = false,
+  onEnterRows,
   onProcess,
   onRemove,
   onReplace,
@@ -92,11 +94,13 @@ export function ImportedDocumentCard({
       : isProcessing
         ? 'Processing timetable…'
         : document.status === 'ready'
-          ? `${document.entryCount} timetable classes processed`
+          ? `${document.entryCount} timetable classes ${
+              isImage ? 'entered' : 'processed'
+            }`
           : document.status === 'failed'
             ? document.errorMessage ?? 'Timetable processing failed'
             : isImage
-              ? 'Saved · Image text extraction is not available yet'
+              ? 'Saved · Enter timetable rows from this image'
               : document.status === 'processing'
                 ? 'Processing timetable…'
                 : 'Ready to process';
@@ -193,6 +197,31 @@ export function ImportedDocumentCard({
           />
           <Text style={styles.processButtonText}>
             {isReplacing ? 'Replacing document…' : 'Replace document'}
+          </Text>
+        </Pressable>
+      ) : null}
+
+      {isImage && onEnterRows ? (
+        <Pressable
+          accessibilityLabel={`Enter timetable rows from ${document.name}`}
+          accessibilityRole="button"
+          disabled={isBusy}
+          onPress={onEnterRows}
+          style={({ pressed }) => [
+            styles.processButton,
+            pressed && styles.processButtonPressed,
+            isBusy && styles.removeButtonDisabled,
+          ]}
+        >
+          <Ionicons
+            color={colors.primary}
+            name="create-outline"
+            size={18}
+          />
+          <Text style={styles.processButtonText}>
+            {document.entryCount > 0
+              ? 'Review timetable rows'
+              : 'Enter timetable rows'}
           </Text>
         </Pressable>
       ) : null}

@@ -264,8 +264,8 @@ export function ManageDocumentsScreen({ navigation }: Props) {
     <Screen contentContainerStyle={styles.content}>
       <Text style={styles.title}>Timetable documents</Text>
       <Text style={styles.description}>
-        Add, replace or remove XLSX, CSV and timetable image files stored in
-        RoomCheck.
+        Add, replace or remove timetable files. For an image, enter its class
+        rows manually so RoomCheck can use it.
       </Text>
 
       <DatabaseSummaryCard
@@ -324,6 +324,15 @@ export function ManageDocumentsScreen({ navigation }: Props) {
                 isRemoving={removingDocumentId === document.id}
                 isReplacing={replacingDocumentId === document.id}
                 key={document.id}
+                onEnterRows={
+                  document.sourceType === 'image'
+                    ? () =>
+                        navigation.navigate('ImageTimetableEntry', {
+                          documentId: document.id,
+                          documentName: document.name,
+                        })
+                    : undefined
+                }
                 onProcess={() => processDocument(document)}
                 onRemove={() => confirmRemoval(document)}
                 onReplace={() => confirmReplacement(document)}
