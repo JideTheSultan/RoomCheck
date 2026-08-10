@@ -1,0 +1,27 @@
+ROOMCHECK PHASE 8 PATCH MANIFEST
+================================
+
+BASE REQUIRED
+-------------
+RoomCheck Phase 2 with the Phase 3 through Phase 7 patches installed
+
+DEPENDENCY CHANGES
+------------------
+None. package.json and package-lock.json are intentionally not included.
+
+NEW FILES
+---------
+PHASE_8_INSTALLATION.txt
+PHASE_8_PATCH_MANIFEST.txt
+VERIFY_PHASE_8.cmd
+
+REPLACED FILES
+--------------
+src/components/ui/ImportedDocumentCard.tsx
+src/database/repositories/importedDocumentRepository.ts
+src/features/import/services/timetableImportService.ts
+src/screens/ManageDocumentsScreen.tsx
+
+TOTAL PATCH FILES
+-----------------
+7

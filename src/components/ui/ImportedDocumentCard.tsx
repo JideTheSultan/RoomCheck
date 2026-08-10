@@ -18,11 +18,14 @@ import {
 } from '../../theme';
 
 type ImportedDocumentCardProps = {
+  disabled?: boolean;
   document: ImportedDocument;
   isProcessing?: boolean;
   isRemoving?: boolean;
+  isReplacing?: boolean;
   onProcess?: () => void;
   onRemove: () => void;
+  onReplace?: () => void;
 };
 
 const sourceIcons: Record<
@@ -67,46 +70,60 @@ function formatImportDate(value: string) {
 }
 
 export function ImportedDocumentCard({
+  disabled = false,
   document,
   isProcessing = false,
   isRemoving = false,
+  isReplacing = false,
   onProcess,
   onRemove,
+  onReplace,
 }: ImportedDocumentCardProps) {
   const isImage = document.sourceType === 'image';
+  const isBusy = disabled || isProcessing || isRemoving || isReplacing;
   const canProcess =
     !isImage &&
     document.status !== 'ready' &&
     document.status !== 'processing' &&
     Boolean(onProcess);
   const statusLabel =
-    document.status === 'ready'
-      ? `${document.entryCount} timetable classes processed`
-      : document.status === 'failed'
-        ? document.errorMessage ?? 'Timetable processing failed'
-        : isImage
-          ? 'Saved · Image text extraction is not available yet'
-          : document.status === 'processing' || isProcessing
-            ? 'Processing timetable…'
-            : 'Ready to process';
+    isReplacing
+      ? 'Saving and checking replacement…'
+      : isProcessing
+        ? 'Processing timetable…'
+        : document.status === 'ready'
+          ? `${document.entryCount} timetable classes processed`
+          : document.status === 'failed'
+            ? document.errorMessage ?? 'Timetable processing failed'
+            : isImage
+              ? 'Saved · Image text extraction is not available yet'
+              : document.status === 'processing'
+                ? 'Processing timetable…'
+                : 'Ready to process';
   const statusStyle =
-    document.status === 'ready'
-      ? styles.readyStatus
-      : document.status === 'failed'
-        ? styles.failedStatus
-        : styles.pendingStatus;
+    isProcessing || isReplacing
+      ? styles.pendingStatus
+      : document.status === 'ready'
+        ? styles.readyStatus
+        : document.status === 'failed'
+          ? styles.failedStatus
+          : styles.pendingStatus;
   const statusDotStyle =
-    document.status === 'ready'
-      ? styles.readyStatusDot
-      : document.status === 'failed'
-        ? styles.failedStatusDot
-        : styles.pendingStatusDot;
+    isProcessing || isReplacing
+      ? styles.pendingStatusDot
+      : document.status === 'ready'
+        ? styles.readyStatusDot
+        : document.status === 'failed'
+          ? styles.failedStatusDot
+          : styles.pendingStatusDot;
   const statusTextStyle =
-    document.status === 'ready'
-      ? styles.readyStatusText
-      : document.status === 'failed'
-        ? styles.failedStatusText
-        : styles.pendingStatusText;
+    isProcessing || isReplacing
+      ? styles.pendingStatusText
+      : document.status === 'ready'
+        ? styles.readyStatusText
+        : document.status === 'failed'
+          ? styles.failedStatusText
+          : styles.pendingStatusText;
 
   return (
     <View style={styles.card}>
@@ -135,13 +152,13 @@ export function ImportedDocumentCard({
         <Pressable
           accessibilityLabel={`Remove ${document.name}`}
           accessibilityRole="button"
-          disabled={isRemoving}
+          disabled={isBusy}
           hitSlop={8}
           onPress={onRemove}
           style={({ pressed }) => [
             styles.removeButton,
             pressed && styles.removeButtonPressed,
-            isRemoving && styles.removeButtonDisabled,
+            isBusy && styles.removeButtonDisabled,
           ]}
         >
           <Ionicons
@@ -157,15 +174,38 @@ export function ImportedDocumentCard({
         <Text style={[styles.statusText, statusTextStyle]}>{statusLabel}</Text>
       </View>
 
+      {onReplace ? (
+        <Pressable
+          accessibilityLabel={`Replace ${document.name}`}
+          accessibilityRole="button"
+          disabled={isBusy}
+          onPress={onReplace}
+          style={({ pressed }) => [
+            styles.processButton,
+            pressed && styles.processButtonPressed,
+            isBusy && styles.removeButtonDisabled,
+          ]}
+        >
+          <Ionicons
+            color={colors.primary}
+            name={isReplacing ? 'hourglass-outline' : 'swap-horizontal-outline'}
+            size={18}
+          />
+          <Text style={styles.processButtonText}>
+            {isReplacing ? 'Replacing document…' : 'Replace document'}
+          </Text>
+        </Pressable>
+      ) : null}
+
       {canProcess ? (
         <Pressable
           accessibilityRole="button"
-          disabled={isProcessing}
+          disabled={isBusy}
           onPress={onProcess}
           style={({ pressed }) => [
             styles.processButton,
             pressed && styles.processButtonPressed,
-            isProcessing && styles.removeButtonDisabled,
+            isBusy && styles.removeButtonDisabled,
           ]}
         >
           <Ionicons

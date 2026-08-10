@@ -1,0 +1,69 @@
+ROOMCHECK PHASE 8 PATCH
+=======================
+
+This is an incremental patch for a RoomCheck project that already has
+Phase 7 installed. It is not a complete copy of the app.
+
+REQUIREMENTS
+------------
+- Phase 2 and the Phase 3 through Phase 7 patches are installed.
+- The project folder contains package.json.
+- RoomCheck-Phase-8-Patch.zip is inside that same project folder.
+
+INSTALL FROM WINDOWS CMD
+------------------------
+1. Open CMD in the RoomCheck project folder.
+
+2. Confirm that package.json is present:
+
+   dir package.json
+
+3. Extract the Phase 8 patch:
+
+   powershell -NoProfile -Command "Expand-Archive -Path '.\RoomCheck-Phase-8-Patch.zip' -DestinationPath '.' -Force"
+
+4. Verify the project:
+
+   VERIFY_PHASE_8.cmd
+
+5. Start Expo with a clean cache:
+
+   npx expo start -c
+
+No npm install is required for Phase 8 because its dependencies did not
+change.
+
+PHASE 8 SCOPE
+-------------
+- Keep importing one or several additional timetable documents.
+- Keep duplicate-file prevention for identical files.
+- Show the document name, type, size, import date, processing state and entry
+  count.
+- Replace an outdated document with a newly selected file.
+- Keep the original document active if its replacement is unsupported,
+  duplicated or fails spreadsheet processing.
+- Remove one document and only the timetable entries created from that file.
+- Preserve timetable data and classrooms still used by other documents.
+- Clear every imported document and its timetable entries after confirmation.
+- Clean up stored files after successful database changes.
+- Disable document actions while another document operation is running.
+
+SAFE REPLACEMENT RULE
+---------------------
+RoomCheck imports and processes the new file before removing the old file. If
+the new spreadsheet fails, the old timetable remains unchanged.
+
+Because image text extraction is not available yet, a timetable image cannot
+replace a processed XLSX or CSV document. It can still be added as a separate
+document.
+
+DELETION RULE
+-------------
+Removing one document deletes only its timetable entries. A classroom remains
+available when another document still uses it. Clear All removes all imported
+documents and discovered timetable data, but preserves manually added rooms.
+
+NOT INCLUDED YET
+----------------
+Phase 9 will focus on final error handling, empty states and user-experience
+polish across the app.

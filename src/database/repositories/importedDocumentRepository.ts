@@ -172,3 +172,7 @@ export async function deleteImportedDocument(
     documentId,
   );
 }
+
+export async function deleteAllImportedDocuments(database: SQLiteDatabase) {
+  await database.runAsync('DELETE FROM imported_documents');
+}

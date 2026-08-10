@@ -9,6 +9,7 @@ import type { SQLiteDatabase } from 'expo-sqlite';
 import {
   cleanupUnusedDiscoveredClassrooms,
   createImportedDocument,
+  deleteAllImportedDocuments,
   deleteImportedDocument,
   getImportedDocumentByFingerprint,
 } from '../../../database';
@@ -45,6 +46,22 @@ export type ImportTimetableResult = {
 export type RemoveImportedDocumentResult = {
   fileCleanupFailed: boolean;
 };
+
+export type ClearImportedDocumentsResult = {
+  fileCleanupFailureCount: number;
+  removedCount: number;
+};
+
+export type ReplaceImportedDocumentResult =
+  | {
+      document: ImportedDocument;
+      fileCleanupFailed: boolean;
+      status: 'replaced';
+    }
+  | {
+      message: string;
+      status: 'duplicate' | 'failed' | 'unsupported';
+    };
 
 function ensureTimetableDocumentsDirectory() {
   timetableDocumentsDirectory.create({
@@ -244,4 +261,118 @@ export async function removeImportedDocument(
   } catch {
     return { fileCleanupFailed: true };
   }
+}
+
+export async function replaceImportedDocument(
+  database: SQLiteDatabase,
+  currentDocument: ImportedDocument,
+  replacementAsset: DocumentPickerAsset,
+): Promise<ReplaceImportedDocumentResult> {
+  const importResult = await importTimetableAssets(database, [
+    replacementAsset,
+  ]);
+
+  if (importResult.duplicates.length > 0) {
+    return {
+      message:
+        'This exact file is already imported. The current document was not changed.',
+      status: 'duplicate',
+    };
+  }
+
+  if (importResult.unsupported.length > 0) {
+    return {
+      message: 'The selected replacement file type is not supported.',
+      status: 'unsupported',
+    };
+  }
+
+  const importFailure = importResult.failures[0];
+
+  if (importFailure) {
+    return {
+      message: importFailure.message,
+      status: 'failed',
+    };
+  }
+
+  const replacementDocument = importResult.imported[0];
+
+  if (!replacementDocument) {
+    return {
+      message: 'The replacement file could not be saved.',
+      status: 'failed',
+    };
+  }
+
+  const processingFailure = importResult.processingFailures[0];
+
+  if (replacementDocument.status === 'failed' || processingFailure) {
+    await removeImportedDocument(database, replacementDocument);
+
+    return {
+      message:
+        processingFailure?.message ??
+        replacementDocument.errorMessage ??
+        'The replacement timetable could not be processed.',
+      status: 'failed',
+    };
+  }
+
+  if (
+    replacementDocument.sourceType === 'image' &&
+    currentDocument.entryCount > 0
+  ) {
+    await removeImportedDocument(database, replacementDocument);
+
+    return {
+      message:
+        'A timetable image cannot replace processed spreadsheet data until image text extraction is available.',
+      status: 'failed',
+    };
+  }
+
+  const { fileCleanupFailed } = await removeImportedDocument(
+    database,
+    currentDocument,
+  );
+
+  return {
+    document: replacementDocument,
+    fileCleanupFailed,
+    status: 'replaced',
+  };
+}
+
+export async function clearImportedDocuments(
+  database: SQLiteDatabase,
+  documents: ImportedDocument[],
+): Promise<ClearImportedDocumentsResult> {
+  await database.withTransactionAsync(async () => {
+    await deleteAllImportedDocuments(database);
+    await cleanupUnusedDiscoveredClassrooms(database);
+  });
+
+  let fileCleanupFailureCount = 0;
+
+  documents.forEach((document) => {
+    if (!document.storedUri) {
+      return;
+    }
+
+    try {
+      const storedFile = new File(document.storedUri);
+
+      if (storedFile.exists) {
+        storedFile.delete();
+      }
+    } catch {
+      fileCleanupFailureCount += 1;
+    }
+  });
+
+  return {
+    fileCleanupFailureCount,
+    removedCount: documents.length,
+  };
 }
